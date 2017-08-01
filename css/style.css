@@ -1,0 +1,124 @@
+body, html {
+    height: 100%;
+}
+
+.bg { 
+    /* The image used */
+    background-image: url('../img/night_bokeh1.jpg');
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    position: relative;
+    opacity: 0.65;
+
+}
+
+.caption {
+  position: absolute;
+  left: 0;
+  top: 20%;
+  width: 100%;
+  text-align: center;
+  color: #000;
+}
+
+.caption span.border {
+  background-color: #111;
+  color: #444;
+  padding: 18px;
+  font-size: 25px;
+  letter-spacing: 10px;
+}
+
+.title {
+  position: absolute;
+  left: 0;
+  top: 5%;
+  width: 100%;
+  text-align: center;
+  color: #000;
+}
+
+.title span.border {
+  /*background-color: #111;*/
+  color: #444;
+  padding: 18px;
+  font-size: 25px;
+  letter-spacing: 10px;
+}
+
+
+/* make keyframes that tell the start state and the end state of our object */
+@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+.fade-in {
+  opacity:0;  /* make things invisible upon start */
+  -webkit-animation:fadeIn ease-in 1;  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
+  -moz-animation:fadeIn ease-in 1;
+  animation:fadeIn ease-in 1;
+
+  -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
+  -moz-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+
+  -webkit-animation-duration:1s;
+  -moz-animation-duration:1s;
+  animation-duration:1s;
+}
+
+.fade-in.one {
+  -webkit-animation-delay: 1.7s;
+  -moz-animation-delay: 1.7s;
+  animation-delay: 1.7s;
+}
+
+
+body
+{
+    font-family: 'Open Sans', sans-serif;
+}
+
+.delete-btn
+{
+    color:maroon;
+    cursor:pointer;
+    display:none;
+}
+
+.time-inventory {
+   opacity: 0.8;
+   transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+   display:inline-block;
+   width:100%;
+}
+
+.time-inventory:hover {
+    opacity: 1;
+}
+
+.time-item
+{
+    display:inline-block;
+}
+.time-item-delete
+{
+    display:inline-block;
+    padding: 0 1%;
+    width: 10px;
+}
+
+/* for testing */
+.time-inventory:hover .delete-btn
+{
+    display:inline-block;
+}
