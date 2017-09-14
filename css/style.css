@@ -4,7 +4,7 @@ body, html {
 
 .bg { 
     /* The image used */
-    background-image: url('../img/night_bokeh1.jpg');
+    /* background-image: url('../img/night_bokeh1.jpg'); */
 
     /* Full height */
     height: 100%; 
@@ -20,9 +20,9 @@ body, html {
 }
 
 .caption {
-  position: absolute;
+  position: relative;
   left: 0;
-  top: 20%;
+  top: 11em;
   width: 100%;
   text-align: center;
   color: #000;
@@ -39,7 +39,7 @@ body, html {
 .title {
   position: absolute;
   left: 0;
-  top: 5%;
+  top: 2.5em;
   width: 100%;
   text-align: center;
   color: #000;
@@ -90,7 +90,16 @@ body
 {
     color:maroon;
     cursor:pointer;
-    display:none;
+    font-size: 1.2em;
+    /* display:none; */
+}
+
+.time-container
+{
+    display: table;
+    text-align: center;
+    margin: auto;
+    /* border-top: solid 1px #CCC; */
 }
 
 .time-inventory {
@@ -98,8 +107,8 @@ body
    transition: opacity .25s ease-in-out;
    -moz-transition: opacity .25s ease-in-out;
    -webkit-transition: opacity .25s ease-in-out;
-   display:inline-block;
-   width:100%;
+   display: table-row;
+   width:19em;
 }
 
 .time-inventory:hover {
@@ -108,17 +117,111 @@ body
 
 .time-item
 {
-    display:inline-block;
+    display: table-cell;
+    width: auto;
+    text-align: left;
+    min-width: 19em;
 }
 .time-item-delete
 {
-    display:inline-block;
-    padding: 0 1%;
-    width: 10px;
+    display: table-cell;
+    padding: 0 5px;
+    width: 14px;
 }
 
 /* for testing */
 .time-inventory:hover .delete-btn
 {
     display:inline-block;
+}
+
+@media (max-width: 320px)
+{
+    .title span.border
+    {
+        font-size:18px;
+    }
+}
+
+.jth-container
+{
+    display:none;
+}
+
+.jth-container:hover
+{
+    color:#FFF;
+    background:#BB1E5B;
+}
+
+.jth-container a
+{
+    color:#FFF;
+    text-decoration: none;      
+}
+
+.jth-donate-btn {
+    display: block;
+    position: fixed;
+    top: 150px;
+    right: -88px;
+    z-index: 99;
+    border: none;
+    outline: none;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 0px 0px 10px 10px;
+
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg); 
+}
+.jth-donate-btn:active, .jth-donate-btn:visited{
+    color: white;
+}
+
+a.jth-donate-btn
+{
+    text-decoration: none;
+}
+
+.jth-donate-btn, .jth-container
+{
+    background:#1F92A2;
+    color: white;
+    
+}
+.jth-donate-btn:hover, .jth-container:hover
+{
+    color:#FFF;
+    background:#BB1E5B;
+}
+
+@media (max-width: 450px)
+{
+    .jth-donate-btn {
+        display:none;
+    }
+
+    .jth-container
+    {
+        background:#1F92A2;
+        transition:all 0.3s ease;
+        padding: 0.2em 0;
+        font-size:1.3em;
+        margin: 0;
+
+        display:block;
+        /* position:relative;
+        display:block;
+        clear:both; */
+    }
+
+    .title{
+        top: 5em;
+    }
 }

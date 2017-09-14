@@ -1,4 +1,34 @@
 var counter = 0;
+window.onload = function() {
+    document.getElementById(addHours.id).focus();
+    document.getElementById(addHours.id).onkeypress = function(e) { LimitImputLength(e); };
+    document.getElementById(addMins.id).onkeypress = function(e){ LimitImputLength(e); }
+};
+
+function LimitImputLength (e)
+{ 
+    var textbox = document.getElementById(e.target.id);
+
+    if (e.keyCode >= 35 && e.keyCode <= 39) {
+        // let it happen, don't do anything
+        return;
+    }
+    // Ensure that it is a number and stop the keypress
+    if ((e.shiftKey || (e.keyCode < 45 && e.keyCode > 57)) || (e.keyCode < 96 && e.keyCode > 101)
+        || (e.keyCode === 43 || e.keyCode === 45 || e.keyCode === 46 || e.keyCode === 101)) {
+        e.preventDefault();
+    }
+    if (textbox.value.toString().length >= 3)
+    {
+        e.preventDefault();
+    }
+
+    // If carriage return
+    if (e.keyCode == 13)
+    {
+        AddTime(addHours, addMins, lblTimeClock_hours, lblTimeClock_mins, itemisedTimes);
+    }
+}
 
 function AddTime(addHours, addMins, tickerHours, tickerMins)
 {
@@ -20,10 +50,9 @@ function AddTime(addHours, addMins, tickerHours, tickerMins)
         // Tell the user they have inputted incorrectly
         NotGoingToProcess = true;
     }
-
+    
     if (!NotGoingToProcess)
     {
-
         // Add the new minutes to the total minutes
         TotalMins = TotalMins + Mins;
 
@@ -37,7 +66,7 @@ function AddTime(addHours, addMins, tickerHours, tickerMins)
         // How many minutes are left... and add them to the total minutes
         var remainderMins = TotalMins % 60;
         TotalMins = remainderMins;
-        console.log(TotalHours + ' hrs ' + TotalMins + ' mins');
+        //console.log(TotalHours + ' hrs ' + TotalMins + ' mins');
         
         // Add total times back into the fields
         document.getElementById(tickerHours.id).innerHTML = TotalHours;
@@ -54,7 +83,7 @@ function AddTime(addHours, addMins, tickerHours, tickerMins)
         // Add item time
         var itemisedTimeItem = document.createElement("div");
         itemisedTimeItem.setAttribute('class', 'time-item');
-        var itemisedTimeItemNode = document.createTextNode(' + ' + Hours + ' hrs ' + Mins + ' mins');
+        var itemisedTimeItemNode = document.createTextNode(' + ' + Hours + ' hrs\u00A0\u00A0' + Mins + ' mins');
         itemisedTimeItem.appendChild(itemisedTimeItemNode);
         itemisedTimeRow.appendChild(itemisedTimeItem);
 
@@ -66,15 +95,21 @@ function AddTime(addHours, addMins, tickerHours, tickerMins)
         subtractTimeIcon.setAttribute('Title', 'Delete Entry');
         subtractTimeIcon.onclick = function() { SubtractTime(itemisedTimeRow.getAttribute('ID'), tickerHours, tickerMins); }
 
+        // Add the delete button for the entry
         var itemisedTimeDeleteNode = document.createTextNode('x');
         subtractTimeIcon.appendChild(itemisedTimeDeleteNode);
         itemisedTimeDelete.appendChild(subtractTimeIcon);
         itemisedTimeRow.appendChild(itemisedTimeDelete);
 
-        document.getElementById(itemisedTimes.id).appendChild(itemisedTimeRow);
+        // Add in the itemised row
+        document.getElementById('itemisedTimes').appendChild(itemisedTimeRow);
+
+        // (Re)set the textboxes
         document.getElementById(addHours.id).focus();
         document.getElementById(addHours.id).value = "";
         document.getElementById(addMins.id).value = "";
+
+        ShowHideItemToggle();
     }
 }
 
@@ -106,14 +141,83 @@ function SubtractTime(TimeToBeDeletedID, tickerHours, tickerMins)
     // Remove element
     document.getElementById(TimeToBeDeletedID).remove();
 
+    ShowHideItemToggle();
 }
 
-function AddANote(){
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function ShowHideItemToggle()
+{
+    // Show up the 'View all entries' button
+    var itemisedTimeDiv = document.getElementById('itemisedTimes');
+    var itemCount = itemisedTimeDiv.getElementsByClassName('time-inventory').length;
+
+    if (itemCount > 0)
+    {
+        document.getElementById('btnEntriesToggle').style.display = "block";
+        document.getElementById('demo').className = 'collapse in';
+    }
+    else
+    {
+        document.getElementById('btnEntriesToggle').style.display = "none";
+        document.getElementById('demo').className = 'collapse';
+    }
+    console.log('toggle triggered');
+}
+
+function AddANote() {
 
 }
 
 function ExportAsCSV()
 {
+    // Add the times into a 2D array
+    var itemisedTimeDiv = document.getElementById('itemisedTimes');
+    var items = document.getElementsByClassName('time-inventory');
+    var itemCount = document.getElementsByClassName('time-inventory').length;
 
+    // create the objects to store the time items
+    var timeItems = [];
+
+    for (var index = 0; index < itemCount; index++) {
+        var element = items[index];
+        var obj = {};
+        obj["Hour"] = element.getAttribute("hours");
+        obj["Mins"] = element.getAttribute("mins");
+        timeItems.push(obj);
+    }
+
+    var lineArray = [];
+    timeItems.forEach(function(infoArray, index){
+        //console.log(toCSV(infoArray));
+        var line = toCSV(infoArray);
+        lineArray.push(index == 0 ? "data:text/csv;charset=utf-8\n,Hours,Mins,\n" + line : line);
+    });
+
+    var csvContent = lineArray.join("\n");
+    //console.log(csvContent);
+
+    // Prepare for download
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a")
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "ItemisedTimes.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    //window.open(encodedUri);
 }
 
+function toCSV(obj, separator) {
+    var arr = [];
+
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            arr.push(obj[key]);
+        }
+    }
+
+    return arr.join(separator || ",");
+}

@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="Tick Tock Pot - A quick and simple way to add times up. In support of John Taylor Hospice who provides specialist care for people living with a terminal illness and their families. Their vision is a compassionate and dignified death for all.">
+    <meta name="keywords" content="Tick Tock Pot, time addition, time adding, addign up time, itemised time, John Taylor Hospice, JTH">
+    <meta name="robots" content="index,follow">
+    
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Tick Tock Pot - Just adding time together. In support of John Taylor Hospice</title>
 
@@ -23,16 +28,45 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
   </head>
   <body class="bg">
+    
+      <div class="row jth-container">
+        <a class="col text-center" href="https://www.johntaylorhospice.org.uk/get-involved/donate" target="_blank" title="John Taylor Hospice provides specialist care for people living with a terminal illness and their families. Our vision is a compassionate and dignified death for all.">
+          <div class="col text-center">
+            Donate to John Taylor Hospice
+          </div>
+        </a>
+      </div>
+      <a class="jth-donate-btn" href="https://www.johntaylorhospice.org.uk/get-involved/donate" target="_blank" title="John Taylor Hospice provides specialist care for people living with a terminal illness and their families. Our vision is a compassionate and dignified death for all.">Donate&nbsp;&nbsp;To&nbsp;&nbsp;John&nbsp;&nbsp;Taylor&nbsp;&nbsp;Hospice</a>
+      
     <div class="title">
         <span class="border">Tick Tock Pot</span><br />
         <span>Simply adding time together.</span>
     </div>
     <div class="caption fade-in">
-      <input type="text" id="addHours" value="1" placeholder="hours" maxlength="4" />&nbsp;:&nbsp;<input type="text" id="addMins" value="59" placeholder="minutes" maxlength="2" />&nbsp;<input type="button" value="Add" onclick="AddTime(addHours, addMins, lblTimeClock_hours, lblTimeClock_mins, itemisedTimes)" />
+      <input type="number" id="addHours" value="" placeholder="hrs" min="0" max="999" maxlength="3" style="width:75px;" />
+      &nbsp;:&nbsp;
+      <input type="number" id="addMins" value="" placeholder="mins" min="0" max="59" maxlength="3" style="width:75px;" />
+      
+          &nbsp;<input type="button" value="Add" onclick="AddTime(addHours, addMins, lblTimeClock_hours, lblTimeClock_mins, itemisedTimes)" />
       <h2><span id="lblTimeClock_hours">0</span> hours&nbsp;&nbsp;<span id="lblTimeClock_mins">0</span> minutes</h2>
-      <div id="itemisedTimes" style="display:inline-block;width:100%;"></div>
+          <div id="btnEntriesToggle" data-toggle="collapse" data-target="#demo" style="display:none;">View all entries
+            &nbsp;<span  onclick="ExportAsCSV()">(export)</span>
+          </div>
+          <div id="demo" class="collapse">
+            <div id="itemisedTimes" class="time-container">
+            <div style="border-top:solid 1px #CCC; column-span: all; width:100%;height:1px;min-width: 19em;"></div>
+            <div id="Time1" hours="1" mins="59" class="time-inventory"><div class="time-item"> + 1 hrs&nbsp;&nbsp;59 mins</div><div class="time-item-delete"><div class="delete-btn" title="Delete Entry">x</div></div></div>
+            <div id="Time2" hours="1" mins="3" class="time-inventory"><div class="time-item"> + 1 hrs&nbsp;&nbsp;3 mins</div><div class="time-item-delete"><div class="delete-btn" title="Delete Entry">x</div></div></div>
+            <div id="Time3" hours="1" mins="0" class="time-inventory"><div class="time-item"> + 1 hrs&nbsp;&nbsp;0 mins</div><div class="time-item-delete"><div class="delete-btn" title="Delete Entry">x</div></div></div> 
+        </div>
+      </div>
+      <br />
+      <br />
+      <br />
+
    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
